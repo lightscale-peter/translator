@@ -22,6 +22,7 @@
     & > button{
         padding: 5px 10px;
         height: 30px;
+        white-space: nowrap;
     }
 
     & > button:first-child{
@@ -40,6 +41,23 @@
     }
 }
 .ts-dic__word-text{
+
+    // 한 줄일때
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+    // white-space: nowrap;
+    // max-width: 300px;
+
+    // 여러줄일떄
+    display: box; 
+    display: -ms-flexbox;
+    display: -webkit-box;
+    overflow:hidden; 
+    -webkit-box-orient:vertical; 
+    -webkit-line-clamp:2;
+
+    margin-right: 20px;
+    
     & input{
         font-size: 16px;
         width: 100%;

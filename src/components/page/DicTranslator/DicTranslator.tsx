@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './DicTranslator.scss';
 
 const { ipcRenderer } = window.require("electron");
@@ -10,10 +10,11 @@ const { dialog } = window.require("electron").remote;
 function DicTranslator(){
 
 
-    const [filePath, setFilePath] = useState('/Users/beomkeunshin/Desktop/practice/electron/replace-html-text/public/electron/sample/test/ios/index.html');
+    const [loadPath, setLoadPath] = useState('선택 필요');
+    const [savePath, setSavePath] = useState('/Users/beomkeunshin/Desktop/');
 
     
-    const sendFilePath = () =>{
+    const setLoadPathFunc = () =>{
         const options = {
             title: 'Open a file or folder',
             //defaultPath: '/path/to/something/',
@@ -21,30 +22,86 @@ function DicTranslator(){
             /*filters: [
               { name: 'xml', extensions: ['xml'] }
             ],*/
-            //properties: ['showHiddenFiles'],
+            properties: ["openDirectory", "multiSelections", "showHiddenFiles"],
             // message: '대상 파일 선택'
           };
     
           dialog.showOpenDialog(null, options).then((result: any) => {
-            console.log('result', result.filePaths[0]);
-            setFilePath(result.filePaths[0]);
-            // ipcRenderer.send('ReplaceText', result.filePaths[0]);
+            // console.log('result', result);
+            if(!result.canceled){
+                setLoadPath(result.filePaths[0]);
+            }
     
           }).catch((err: any) =>{
             console.log(err);
           });
     }
 
+    const setSavePathFunc = () =>{
+        const options = {
+            properties: ["openDirectory"]
+          };
+    
+          dialog.showOpenDialog(null, options).then((result: any) => {
+            if(!result.canceled){
+                setLoadPath(result.filePaths[0]);
+            }
+          }).catch((err: any) =>{
+            console.log(err);
+          });
+    }
+
+    const startTranslator = () =>{
+        const options = {
+            type: 'question',
+            buttons: ['Cancel', 'Yes, please', 'No, thanks'],
+            defaultId: 2,
+            title: 'Question',
+            message: '번역을 시작하시겠습니까?',
+            detail: '다시 되돌릴 수 없습니다.',
+            checkboxLabel: 'Remember my answer',
+            checkboxChecked: true,
+          };
+        
+
+          dialog.showMessageBox(null, options).then((response: any, checkboxChecked: any) => {
+            console.log('response', response.response);
+            console.log('checkboxChecked', checkboxChecked);
+
+            if(response.response === 1){
+                ipcRenderer.send('ReplaceText', {loadPath: loadPath, savePath: savePath});
+            }
+          });
+    }
+
+    useEffect(()=>{
+        ipcRenderer.once('ShowAlert', function(event: any, arg: any){
+            dialog.showErrorBox('오류발생', '경로를 다시 확인해주세요.');
+        });
+    }, []);
 
     return (
-        <div>
-            <div className="ts-tt-artile__title">
-                <h1>번역 파일 불러오기</h1>
+        <div className="ts-tt-article">
+            <div className="ts-tt-article__box">
+                <div className="ts-tt-article__title">
+                    <h1>번역 파일 위치</h1>
+                </div>
+                <div className="ts-tt-article__contents">
+                    <div>{loadPath}</div>
+                    <button onClick={setLoadPathFunc}>원본파일 선택</button>
+                </div>
             </div>
-
-            <div>
-                <div>{filePath}</div>
-                <button onClick={sendFilePath}>원본파일 선택</button>
+            <div className="ts-tt-article__box">
+                <div className="ts-tt-article__title">
+                    <h1>번역 파일 저장</h1>
+                </div>
+                <div className="ts-tt-article__contents">
+                    <div>{savePath}</div>
+                    <button onClick={setSavePathFunc}>저장경로 선택</button>
+                </div>
+            </div>
+            <div className="ts-tt-article__box--button" onClick={startTranslator}>
+                번역 시작
             </div>
         </div>
     )

@@ -1,4 +1,39 @@
-.ts-tt-artile__title{
-    margin: 20px;
+.ts-tt-article{
     text-align: center;
+}
+
+
+.ts-tt-article__box{
+    border: 1px solid grey;
+    margin: 20px;
+    padding: 20px;
+}
+.ts-tt-article__contents{
+    margin-top: 15px;
+    line-height: 1.5em;
+
+    & button{
+        margin-top: 15px;
+        font-size: 15px;
+        padding: 5px 10px;
+        background-color: white;
+        border: 1px solid;
+        cursor: pointer;
+    }
+    & button:hover{
+        background-color: lightgrey;
+    }
+
+}
+
+.ts-tt-article__box--button{
+    @extend .ts-tt-article__box;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: lightgrey;
+
+    &:hover{
+        background-color: white;
+    }
 }
