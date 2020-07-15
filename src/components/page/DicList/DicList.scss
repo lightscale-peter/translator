@@ -1,0 +1,47 @@
+.ts-dic__li{
+    background-color: lightgrey;
+    margin: 20px;
+    padding: 20px;
+    & > div:last-child{
+        margin-top: 10px;
+    }
+}
+.ts-dic__flex{
+    display: flex;
+    justify-content: space-between;
+    & .date{
+        font-size: 13px;
+        color: grey;
+    }
+}
+
+.ts-dic__buttons{
+    display: flex;
+    align-items: center;
+
+    & > button{
+        padding: 5px 10px;
+        height: 30px;
+    }
+
+    & > button:first-child{
+        margin-right: 5px;
+    }
+}
+.ts-dic__display{
+
+    & .ts-dic__word{
+        display: flex;
+        align-items: center;
+        min-height: 25px;
+    }
+    & .ts-dic__word.ko{
+        margin-top: 5px;
+    }
+}
+.ts-dic__word-text{
+    & input{
+        font-size: 16px;
+        width: 100%;
+    }
+}

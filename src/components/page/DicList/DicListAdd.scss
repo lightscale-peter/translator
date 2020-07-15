@@ -1,0 +1,63 @@
+
+.ts-article__list-top-buttons{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 20px;
+
+
+    & button{
+        padding: 5px 8px;
+    }
+
+    & .sort{
+        display: flex;
+        align-items: center;
+
+        & > li{
+            cursor: pointer;
+            margin-right: 10px;
+            color: gray;
+        }
+        & > li.on{
+            font-weight: bold;
+            color: black;
+        }
+    }
+
+}
+
+.ts-article__list-top-add-wrapper{
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s;
+    &.show{
+        height: 110px;
+    }    
+}
+
+.ts-article__list-top-add{
+    display: flex;
+    justify-content: space-between;
+    background-color: lightgray;
+    margin: 15px 20px 0;
+    padding: 20px;
+}
+
+.ts-article__list-input{
+    & .input{
+        display: flex;
+    }
+    & input{
+        font-size: 16px;
+    }
+    & > div:last-child{
+        margin-top: 10px;
+    }
+}
+
+.ts-article__list-complete-button{
+    & button{
+        height: 100%;
+        padding: 20px;
+    }
+}
