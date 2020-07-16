@@ -22,14 +22,18 @@ function DicTranslator(){
             /*filters: [
               { name: 'xml', extensions: ['xml'] }
             ],*/
-            properties: ["openDirectory", "multiSelections", "showHiddenFiles"],
-            // message: '대상 파일 선택'
+            // properties: ["openDirectory", "multiSelections", "showHiddenFiles"],
+            message: '대상 파일 선택'
           };
     
           dialog.showOpenDialog(null, options).then((result: any) => {
-            // console.log('result', result);
+            console.log('result', result);
             if(!result.canceled){
-                setLoadPath(result.filePaths[0]);
+                const filePath = result.filePaths[0];
+                let fileName = filePath.split("/");
+                fileName = fileName[fileName.length-1];
+                setLoadPath(filePath);
+                setSavePath(savePath + fileName);
             }
     
           }).catch((err: any) =>{
@@ -39,12 +43,12 @@ function DicTranslator(){
 
     const setSavePathFunc = () =>{
         const options = {
-            properties: ["openDirectory"]
+            defaultPath: '/Users/beomkeunshin/Desktop/index.html',
           };
     
-          dialog.showOpenDialog(null, options).then((result: any) => {
+          dialog.showSaveDialog(null, options).then((result: any) => {
             if(!result.canceled){
-                setLoadPath(result.filePaths[0]);
+                setSavePath(result.filePath);
             }
           }).catch((err: any) =>{
             console.log(err);
@@ -54,13 +58,14 @@ function DicTranslator(){
     const startTranslator = () =>{
         const options = {
             type: 'question',
-            buttons: ['Cancel', 'Yes, please', 'No, thanks'],
+            // buttons: ['Cancel', 'Yes, please', 'No, thanks'],
+            buttons: ['아니오', '예'],
             defaultId: 2,
             title: 'Question',
             message: '번역을 시작하시겠습니까?',
             detail: '다시 되돌릴 수 없습니다.',
-            checkboxLabel: 'Remember my answer',
-            checkboxChecked: true,
+            // checkboxLabel: 'Remember my answer',
+            // checkboxChecked: true,
           };
         
 
@@ -75,9 +80,22 @@ function DicTranslator(){
     }
 
     useEffect(()=>{
-        ipcRenderer.once('ShowAlert', function(event: any, arg: any){
-            dialog.showErrorBox('오류발생', '경로를 다시 확인해주세요.');
+        ipcRenderer.on('ShowAlert', function(event: any, args: any){
+            if(args.flag){
+                const options = {
+                    type: 'question',
+                    buttons: ['확인'],
+                    defaultId: 2,
+                    title: 'Question',
+                    message: args.title,
+                    detail: args.desc,
+                };
+                dialog.showMessageBox(null, options)
+            }else{
+                dialog.showErrorBox(args.title, args.desc);
+            }
         });
+
     }, []);
 
     return (

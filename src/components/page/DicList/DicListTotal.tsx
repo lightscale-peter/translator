@@ -36,7 +36,7 @@ function DicListTotal(){
       }, [search, limit]);
 
       useEffect(()=>{
-        ipcRenderer.once('FindAllDicDataReturn', function(event: any, arg: dicType[]){
+        ipcRenderer.on('FindAllDicDataReturn', function(event: any, arg: dicType[]){
           console.log('updateList');
           if(arg) setDic(arg);
         });
@@ -120,10 +120,15 @@ function DicListTotal(){
             <DicListAdd addList={addList} reSortList={reSortList} />
             <ul>
             { 
+                dic.length === 1 ? '' :
                 dic.map((dicVal, indexVal) => <DicList dic={dicVal} key={dicVal._id} index={indexVal} deleteList={deleteList} />)
             }
             </ul>
-            <div onClick={getMoreList} className="ts-article__more-button">더 보기</div>
+            {
+              dic.length !== 1 &&
+              <div onClick={getMoreList} className="ts-article__more-button">더 보기</div>
+            }
+            
         </div>
     )
 }

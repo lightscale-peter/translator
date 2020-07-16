@@ -52,14 +52,8 @@ function createWindow(){
     // File
     ipcMain.on('ReplaceText', (event, args) =>{
         console.log('ReplaceText 실행');
-        console.log('path', args);
-
-
-        ReplaceText(args).then((val) =>{
-            console.log('val', val);
-            if(!val){
-                win.webContents.send('ShowAlert');
-            }
+        ReplaceText(args).then((result) =>{
+            win.webContents.send('ShowAlert', result);
         })
     });
 

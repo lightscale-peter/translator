@@ -29,7 +29,14 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "electron": "electron ."
+    "electron": "electron .",
+    "electron-build:osx": "electron-builder --mac",
+    "electron-build:linux": "npm run electron-builder:linux32 && npm run electron-builder:linux64",
+    "electron-build:linux32": "electron-builder --linux --ia32",
+    "electron-build:linux64": "electron-builder --linux --x64",
+    "electron-build:win": "npm run electron-builder:win32 && npm run electron-builder:win64",
+    "electron-build:win32": "electron-builder --win --ia32",
+    "electron-build:win64": "electron-builder --win --x64"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -48,8 +55,78 @@
   },
   "devDependencies": {
     "@types/electron": "^1.6.10",
-    "electron": "^9.0.4"
+    "electron": "^9.0.4",
+    "electron-builder": "^22.7.0"
   },
-  "main": "./public/electron/main.js",
-  "homepage": "./"
+  "main": "./public/electron/electron.js",
+  "homepage": "./",
+
+
+
+
+
+  "build": {
+    "productName": "translator",
+    "appId": "kr.co.translator.www",
+    
+    "asar": true,
+    "protocols": {
+      "name": "productTest",
+      "schemes": [
+        "productTest"
+      ]
+    },
+    "mac": {
+      "target": [
+        "default"
+      ],
+      "icon": "./public/icon.png"
+    },
+    "dmg": {
+      "title": "translator",
+      "icon": "./public/icon.png"
+    },
+    "win": {
+      "target": [
+        "zip",
+        "nsis"
+      ],
+      "icon": "./public/icon.png"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb",
+        "rpm",
+        "zip",
+        "tar.gz"
+      ],
+      "icon": "./public/icon.png"
+
+    },
+
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "installerLanguages": [
+        "en_US",
+        "ko_KR"
+      ],
+      "language": "1042"
+    },
+    "extends": null,
+
+    "files": [
+      "./build/**/*",
+      "./public/**/*",
+      "./public/*",
+      "package.json"
+    ],
+
+    "directories": {
+      "buildResources": "build/electron/electron.js",
+      "output": "build/",
+      "app": "."
+    }
+  }
 }
