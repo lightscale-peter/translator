@@ -2,11 +2,14 @@
 .ts-main{
   display: flex;
   // height: 100vh;
+  -webkit-app-region: drag;
+  -webkit-user-select: none;
 }
 .ts-nav{
   min-width: 200px;
   min-height: 100vh;
   background-color: lightgray;
+  padding-top: 20px;
 }
 .ts-nav__ul{
   position: sticky;

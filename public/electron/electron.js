@@ -10,7 +10,10 @@ function createWindow(){
         height: 800,
         webPreferences: {
             nodeIntegration: true
-        }
+        },
+        // resizable: false,
+        titleBarStyle: "hidden"
+        
     });
 
     if(isDev){
