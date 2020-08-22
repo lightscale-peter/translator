@@ -95,6 +95,10 @@ function DicTranslator(){
                 dialog.showErrorBox(args.title, args.desc);
             }
         });
+  
+        ipcRenderer.invoke('GetDesktopPath').then(function(result: any){
+            setSavePath(result + '/');
+        });
 
     }, []);
 

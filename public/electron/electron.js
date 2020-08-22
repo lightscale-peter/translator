@@ -60,6 +60,14 @@ function createWindow(){
         })
     });
 
+
+    ipcMain.handle('GetDesktopPath', function(event, arg){
+        console.log('GetDesktopPath 실행');
+        return app.getPath('desktop');
+    });
+
+    // console.log('fsddsfsdf', app.getPath('desktop'));
+
     
 
 
