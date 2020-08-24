@@ -30,7 +30,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "electron": "electron .",
-    "electron-build:osx": "electron-builder --mac",
+    "electron-build:osx": "CSC_IDENTITY_AUTO_DISCOVERY=false electron-builder --mac",
     "electron-build:linux": "npm run electron-builder:linux32 && npm run electron-builder:linux64",
     "electron-build:linux32": "electron-builder --linux --ia32",
     "electron-build:linux64": "electron-builder --linux --x64",
